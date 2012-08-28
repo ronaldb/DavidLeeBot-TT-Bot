@@ -295,13 +295,13 @@ exports.newSongEventHandler = function (data) {
     // Are we playing a game?
     switch(gameType) {
         case "letter":
-            game(currentSong.song.toUpperCase(), currentSong.djname);
+            game(currentsong.song.toUpperCase(), currentsong.djname);
             break;
         case "word":
-            game(currentSong.song.toUpperCase(), currentSong.djname);
+            game(currentsong.song.toUpperCase(), currentsong.djname);
             break;
         case "double play":
-            game(currentSong.artist, currentSong.djname);
+            game(currentsong.artist, currentsong.djname);
             break;
     }
 
