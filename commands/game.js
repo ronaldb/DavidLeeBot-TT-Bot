@@ -30,6 +30,7 @@ exports.handler = function(data) {
 					break;
 				case "double play":
 					result = 'We\'re playing Double Play. DJs must play two in a row of each artist.';
+					break;
 				case "none":
 					result = 'We are not currently playing a game. Say "game <type>" to start one. Available types are letter, word, and double play.';
 					break;
