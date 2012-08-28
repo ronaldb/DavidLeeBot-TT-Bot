@@ -292,6 +292,19 @@ exports.newSongEventHandler = function (data) {
         }
     }
 
+    // Are we playing a game?
+    switch(gameType) {
+        case "letter":
+            game(currentSong.song.toUpperCase(), currentSong.djname);
+            break;
+        case "word":
+            game(currentSong.song.toUpperCase(), currentSong.djname);
+            break;
+        case "double play":
+            game(currentSong.artist, currentSong.djname);
+            break;
+    }
+
     //Log in console
     if (config.consolelog) {
         console.log('\u001b[37mNow Playing: ' + currentsong.artist + ' - ' + currentsong.song + '\u001b[0m');
@@ -424,6 +437,21 @@ exports.addDjEventHandler = function(data) {
     //See if this user is in the past djs list
     else if (config.enforcement.enforceroom && config.enforcement.stepuprules.waittostepup) {
         checkStepup(data.user[0].userid, data.user[0].name);
+    }
+
+    // Let the DJ know we're playing a game
+    if ((gameType != "none") && (curLast !="")) {
+        switch(gameType) {
+            case "letter":
+                bot.speak('We\'re playing the Letter Game. The next song needs to start with "' + curLast + '"');
+                break;
+            case "word":
+                bot.speak('We\'re playing the Word Game. The next song needs to contain one of the following words: ' + curWords.join(', '));
+                break;
+            case "double play":
+                bot.speak('We\'re playing Double Play. The next song should be by ' + curArtist + '.');
+                break;
+        }
     }
 
     if (djs.length > 2 && botIsDJ) {
