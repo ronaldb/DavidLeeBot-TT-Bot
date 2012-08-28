@@ -925,7 +925,7 @@ global.game = function(song, dj) {
         case "letter":
             sl = song.length - 1; 
             curLast = song.charAt(sl);
-            while (curlast == ' ') {
+            while (curLast == ' ') {
                 song = song.slice(0, sl-1);
                 sl = song.length - 1;
             }
