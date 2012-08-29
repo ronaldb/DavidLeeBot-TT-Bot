@@ -15,11 +15,23 @@ var blastoff = [
     ['Yeah!', 192000]
 ];
 
+var letsgoalltheway = [
+    ['sham sham', 5000],
+    ['Zinny Ninny', 15000]
+];
+
+var thereflex = [
+    ['ta na na na', 2000],
+    ['ta na na na!', 6000]
+];
+
 var sail = [
     ['SAIL', 34500]
 ];
     
 var songlist = [
+    ['Sly Fox', 'Let\'s Go All the Way', letsgoalltheway],
+    ['Duran Duran', 'The Reflex', thereflex],
     ['AWOLNATION', 'Sail', sail],
     ['Reptar', 'Blastoff', blastoff],  
     ['Reptar', 'Houseboat Babies', houseboatbabies]
