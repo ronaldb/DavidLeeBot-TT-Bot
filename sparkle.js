@@ -925,7 +925,7 @@ global.game = function(song, dj) {
         case "letter":
             sl = song.length - 1; 
             curLast = song.charAt(sl);
-            while (curlast == ' ') {
+            while (curLast == ' ') {
                 song = song.slice(0, sl-1);
                 sl = song.length - 1;
             }
@@ -950,8 +950,7 @@ global.game = function(song, dj) {
                     gamePass = "OK";
                 }
             }
-            if ((gamePass == "OK") && (curStreak.length >= 2));
-            {
+            if ((gamePass == "OK") && (curStreak.length >= 2)) {
                 bot.speak( dj + ' has kept it going!! Current streak is at ' + curStreak.length + ' songs. The next song should be by "' + curArtist + '" to keep it going.');
             }
             break;
@@ -967,12 +966,12 @@ global.game = function(song, dj) {
             else {
                 bot.speak ('FINAL SCORE: ' + curStreak.length + ', the current record is ' + longStreak + ' songs.');
             }
+            console.log('Ending ' + gameType + ' connection game');
             curStreak.length = 0;
             gameType = "none";
             curLast = "";
             curWords = "";
             curArtist = "any artist";
-            console.log('Ending ' + gameType + ' connection game');
         }
     }
     else {
