@@ -337,9 +337,9 @@ exports.newSongEventHandler = function (data) {
         if (lyrics != null) {
             //If lyrics were found, loop through and set a timeout for each
             for (i in lyrics) {
-                var fnc = function(y) { 
-                    setTimeout(function() { bot.speak(lyrics[y][0]); }, lyrics[y][1]);
-                }(i);
+                var fnc = function(y,songid) { 
+                    setTimeout(function() { if (songid == currentsong.id) { bot.speak(lyrics[y][0]); } }, lyrics[y][1]);
+                }(i,currentsong.id);
             }
         }
     }
