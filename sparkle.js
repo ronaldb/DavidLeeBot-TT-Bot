@@ -976,7 +976,9 @@ global.game = function(song, dj) {
     }
     else {
         result = getGame('');
-        bot.speak(result);
+        if (result != "") {
+            bot.speak(result);
+        }
     }
 }
 

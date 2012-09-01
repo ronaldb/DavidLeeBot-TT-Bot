@@ -441,7 +441,9 @@ exports.addDjEventHandler = function(data) {
 
     // Let the DJ know we're playing a game
     result = getGame('');
-    bot.speak(result);
+    if (result != "") {
+        bot.speak(result);
+    }
 
     if (djs.length > 2 && botIsDJ) {
         botStopDJ();
