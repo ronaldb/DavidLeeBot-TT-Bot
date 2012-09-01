@@ -975,18 +975,43 @@ global.game = function(song, dj) {
         }
     }
     else {
+        result = getGame('');
+        bot.speak(result);
+    }
+}
+
+global.getGame = function(action) {
+    var result = "";
+    if ((gameType != "none") && (curLast != "")) {
         switch(gameType) {
             case "letter":
-                bot.speak('We\'re playing the Letter Game. The next song needs to start with "' + curLast + '"');
+                result = 'We\'re playing the Letter Game. ';
+                if (action == "help") {
+					result += 'The first letter of each song must start with the last letter of the previous tune.';
+                }
+                else {
+                    result += ' The next song needs to start with "' + curLast + '"';
+                }
                 break;
-
             case "word":
-                bot.speak('We\'re playing the Word Game. The next song needs to contain one of the following words: ' + curWords.join(', '));
+                result = 'We\'re playing the Word Game. ';
+                if (action == "help") {
+                    result += 'The title of each song must contain at least one word from the title of the previous tune.';
+                }
+                else {
+                    result += 'The next song needs to contain one of the following words: ' + curWords.join(', ');
+                }
                 break;
-
             case "double play":
-                bot.speak('We\'re playing Double Play. The next song should be by ' + curArtist + '.');
+                result = 'We\'re playing Double Play. ';
+                if (action == "help") {
+                    result += 'DJs must play two in a row of each artist.';
+                }
+                else {
+                    result += 'The next song should be by ' + curArtist + '.';
+                }
                 break;
         }
     }
+    return result;
 }
