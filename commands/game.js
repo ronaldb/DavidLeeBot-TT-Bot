@@ -14,6 +14,11 @@ exports.handler = function(data) {
 				}
                 else if (gameName == "help") {
                     result = getGame("help");
+                    if (result == "") {
+                        result = 'There are 3 games: Letter Game - The first letter of each song must start with the last letter of the previous tune. ';
+                        result += 'Word Game - The title of each song must contain at least one word from the title of the previous tune.';
+                        result += 'Double Play - DJs must play two in a row of each artist.';
+                    }
                 }
 				else {
 					result = 'I don\'t know that game.';
