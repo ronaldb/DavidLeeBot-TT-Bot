@@ -7,7 +7,7 @@ exports.handler = function(data) {
         var response = '';
         for (i in djs) {
             response += usersList[djs[i].id].name + ' (' + djs[i].remaining + ' song'
-                + ((djs[i].remaining == 1 || djs[i].remaining == -1) ? 's' : '') + ' left), ';
+                + ((djs[i].remaining == 1 || djs[i].remaining == -1) ? '' : 's') + ' left), ';
         }
     } else {
         var response = '';
