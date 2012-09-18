@@ -440,18 +440,9 @@ exports.addDjEventHandler = function(data) {
     }
 
     // Let the DJ know we're playing a game
-    if ((gameType != "none") && (curLast !="")) {
-        switch(gameType) {
-            case "letter":
-                bot.speak('We\'re playing the Letter Game. The next song needs to start with "' + curLast + '"');
-                break;
-            case "word":
-                bot.speak('We\'re playing the Word Game. The next song needs to contain one of the following words: ' + curWords.join(', '));
-                break;
-            case "double play":
-                bot.speak('We\'re playing Double Play. The next song should be by ' + curArtist + '.');
-                break;
-        }
+    result = getGame('');
+    if (result != "") {
+        bot.speak(result);
     }
 
     if (djs.length > 2 && botIsDJ) {
