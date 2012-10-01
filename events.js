@@ -287,6 +287,7 @@ exports.newSongEventHandler = function (data) {
     if (usertostep != null) {
         if (usertostep == config.botinfo.userid) {
             bot.remDj(config.botinfo.userid);
+			botIsDJ = false;
         } else if (config.enforcement.enforceroom) {
             enforceRoom();
         }
