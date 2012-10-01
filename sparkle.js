@@ -479,16 +479,18 @@ global.welcomeUser = function (name, id) {
 //Reminds a user that has just played a song to step down, and pulls them
 //off stage if they do not step down.
 global.enforceRoom = function () {
-    setTimeout( function() {
-        if(!userstepped) {
-            bot.speak('@' + usersList[usertostep].name + ', please step down');
-            setTimeout( function() {
-                if(!userstepped) {
-                    bot.remDj(usertostep);
-                }
-            }, 15000);
-        }
-    }, 15000);
+    if (usertostep != currentsong.djid) {
+		setTimeout( function() {
+			if(!userstepped) {
+				bot.speak('@' + usersList[usertostep].name + ', please step down');
+				setTimeout( function() {
+					if(!userstepped) {
+						bot.remDj(usertostep);
+					}
+				}, 15000);
+			}
+		}, 15000);
+	}
 }
 
 global.reducePastDJCounts = function (djid) {
@@ -814,8 +816,7 @@ global.botStartDJ = function() {
 }
 
 global.botStopDJ = function() {
-    bot.remDj(config.botinfo.userid);
-    botIsDJ = false;
+    usertostep = config.botinfo.userid;
 }
 
 global.justActive = function(userid) {
