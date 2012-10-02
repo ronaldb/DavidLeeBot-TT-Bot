@@ -6,6 +6,10 @@ exports.enabled = true;
 exports.matchStart = false;
 exports.handler = function(data) {
     if (config.enforcement.waitlist) {
+		if (data.userid == '4e132721a3f75114de033e4b') {
+			output({text: 'Don't you mean "+1"', destination: data.source, userid: data.userid});
+		}
         addToWaitlist(data.userid, data.name, data.source);
+		
     }
 }
