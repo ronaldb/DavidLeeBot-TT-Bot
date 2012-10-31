@@ -360,15 +360,13 @@ exports.remDjEventHandler = function (data) {
 
     //Adds user to 'step down' vars
     //Used by enforceRoom()
-    if (usertostep == data.user[0].userid) {
-        //Reset stepdown vars
-        userstepped = true;
-        usertostep = null;
-        
-        if (config.enforcement.enforceroom && config.enforcement.stepuprules.waittostepup) {
-            addToPastDJList(data.user[0].userid);
-        }
-    }
+	//Reset stepdown vars
+	userstepped = true;
+	usertostep = null;
+	
+	if (config.enforcement.enforceroom && config.enforcement.stepuprules.waittostepup) {
+		addToPastDJList(data.user[0].userid);
+	}
     
     //Set time this event occurred for enforcing one and down room policy
     if (legalstepdown) {
