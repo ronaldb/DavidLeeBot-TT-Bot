@@ -16,7 +16,7 @@
  *
 */
 var args = process.argv;
-global.version = '[Sparkle/DLB] Version 1.0.8';
+global.version = '[Sparkle/DLB] Version 1.1dev20120827';
 
 global.fs = require('fs');
 global.url = require('url'); 
@@ -57,6 +57,16 @@ global.bonuspoints = new Array();      //An array of DJs wanting the bot to bonu
 global.bonusvote = false;              //A flag denoting if the bot has bonus'd a song
 global.bonusvotepoints = 0;            //The number of awesomes needed for the bot to awesome
 global.botIsDJ = false;
+
+// game variables
+global.curSong = "";
+global.curLast = "";
+global.curFirst = "";
+global.gameType = "none";
+global.curArtist = "any artist";
+global.curStreak = [];
+global.curWords = [];
+global.longStreak = 0;
 
 //Current song info
 global.currentsong = {
@@ -469,16 +479,18 @@ global.welcomeUser = function (name, id) {
 //Reminds a user that has just played a song to step down, and pulls them
 //off stage if they do not step down.
 global.enforceRoom = function () {
-    setTimeout( function() {
-        if(!userstepped) {
-            bot.speak('@' + usersList[usertostep].name + ', please step down');
-            setTimeout( function() {
-                if(!userstepped) {
-                    bot.remDj(usertostep);
-                }
-            }, 15000);
-        }
-    }, 15000);
+    if (usertostep != currentsong.djid) {
+		setTimeout( function() {
+			if(!userstepped) {
+				bot.speak('@' + usersList[usertostep].name + ', please step down');
+				setTimeout( function() {
+					if(!userstepped) {
+						bot.remDj(usertostep);
+					}
+				}, 15000);
+			}
+		}, 15000);
+	}
 }
 
 global.reducePastDJCounts = function (djid) {
@@ -804,8 +816,7 @@ global.botStartDJ = function() {
 }
 
 global.botStopDJ = function() {
-    bot.remDj(config.botinfo.userid);
-    botIsDJ = false;
+    usertostep = config.botinfo.userid;
 }
 
 global.justActive = function(userid) {
@@ -875,4 +886,135 @@ global.snagSong = function() {
     bot.snag(function() {
         bot.speak('Heart fart! <3');
     });
+}
+
+global.game = function(song, dj) {
+    var gLast = '';
+    var oldLast = curLast;
+    var gamePass = "";
+
+    if (gameType == "double play") {
+        curLast = song.toUpperCase();
+    }
+    
+    // remove special characters from the song name
+    song = song.replace(/[^a-zA-Z ]+/g,'').replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+    var sl = song.indexOf(' ');
+    while (sl == 0) {
+        song = song.slice(1);
+        sl = song.indexOf(' ');
+    }
+    
+    // find match
+    switch(gameType) {
+        case "word":
+            curWords = song.split(' ');
+            var lastWords = oldLast.split(' ');
+            for (var sf in curWords) {
+                if (lastWords.indexOf(curWords[sf]) != -1) {
+                    gamePass = "OK";
+                    console.log ('found ' + curWords[sf]);
+                }
+            }
+            curLast = song;
+            if (gamePass == "OK") {
+                curStreak.push(song);
+                bot.speak(dj + ' has kept it going!! Current streak is at ' + curStreak.length + ' songs. The next song needs to contain one of the following words: ' + curWords.join(', '));
+            }
+            break;
+
+        case "letter":
+            sl = song.length - 1; 
+            curLast = song.charAt(sl);
+            while (curLast == ' ') {
+                song = song.slice(0, sl-1);
+                sl = song.length - 1;
+            }
+            curFirst = song.charAt(0);
+            if (curFirst == oldLast) {
+                gamePass = "OK";
+                curStreak.push(song);
+                bot.speak( dj + ' has kept it going!! Current streak is at ' + curStreak.length + ' songs. The next song needs to start with "' + curLast + '" to keep it going.');
+            }
+            break;
+        
+        case "double play":
+            if (curArtist == "any artist") {
+                curArtist = curLast;
+                curStreak.push(song);
+                gamePass = "OK";
+            }
+            else {
+                if (curArtist == curLast) {
+                    curArtist = "any artist";
+                    curStreak.push(song);
+                    gamePass = "OK";
+                }
+            }
+            if ((gamePass == "OK") && (curStreak.length >= 2)) {
+                bot.speak( dj + ' has kept it going!! Current streak is at ' + curStreak.length + ' songs. The next song should be by "' + curArtist + '" to keep it going.');
+            }
+            break;
+    }
+    // Return results
+    if (oldLast != "") {
+        if (gamePass != "OK") {
+            bot.speak (dj + ' has broken the streak. The ' + gameType + ' game is over.');
+            if (curStreak.length > longStreak) {
+                longStreak = curStreak.length;
+                bot.speak ('***NEW RECORD: ' + longStreak + ' SONGS***');
+            }
+            else {
+                bot.speak ('FINAL SCORE: ' + curStreak.length + ', the current record is ' + longStreak + ' songs.');
+            }
+            console.log('Ending ' + gameType + ' connection game');
+            curStreak.length = 0;
+            gameType = "none";
+            curLast = "";
+            curWords = "";
+            curArtist = "any artist";
+        }
+    }
+    else {
+        result = getGame('');
+        if (result != "") {
+            bot.speak(result);
+        }
+    }
+}
+
+global.getGame = function(action) {
+    var result = "";
+    if ((gameType != "none") && (curLast != "")) {
+        switch(gameType) {
+            case "letter":
+                result = 'We\'re playing the Letter Game. ';
+                if (action == "help") {
+					result += 'The first letter of each song must start with the last letter of the previous tune.';
+                }
+                else {
+                    result += ' The next song needs to start with "' + curLast + '"';
+                }
+                break;
+            case "word":
+                result = 'We\'re playing the Word Game. ';
+                if (action == "help") {
+                    result += 'The title of each song must contain at least one word from the title of the previous tune.';
+                }
+                else {
+                    result += 'The next song needs to contain one of the following words: ' + curWords.join(', ');
+                }
+                break;
+            case "double play":
+                result = 'We\'re playing Double Play. ';
+                if (action == "help") {
+                    result += 'DJs must play two in a row of each artist.';
+                }
+                else {
+                    result += 'The next song should be by ' + curArtist + '.';
+                }
+                break;
+        }
+    }
+    return result;
 }

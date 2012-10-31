@@ -287,9 +287,23 @@ exports.newSongEventHandler = function (data) {
     if (usertostep != null) {
         if (usertostep == config.botinfo.userid) {
             bot.remDj(config.botinfo.userid);
+			botIsDJ = false;
         } else if (config.enforcement.enforceroom) {
             enforceRoom();
         }
+    }
+
+    // Are we playing a game?
+    switch(gameType) {
+        case "letter":
+            game(currentsong.song.toUpperCase(), currentsong.djname);
+            break;
+        case "word":
+            game(currentsong.song.toUpperCase(), currentsong.djname);
+            break;
+        case "double play":
+            game(currentsong.artist, currentsong.djname);
+            break;
     }
 
     //Log in console
@@ -324,9 +338,9 @@ exports.newSongEventHandler = function (data) {
         if (lyrics != null) {
             //If lyrics were found, loop through and set a timeout for each
             for (i in lyrics) {
-                var fnc = function(y) { 
-                    setTimeout(function() { bot.speak(lyrics[y][0]); }, lyrics[y][1]);
-                }(i);
+                var fnc = function(y,songid) { 
+                    setTimeout(function() { if (songid == currentsong.id) { bot.speak(lyrics[y][0]); } }, lyrics[y][1]);
+                }(i,currentsong.id);
             }
         }
     }
@@ -346,15 +360,13 @@ exports.remDjEventHandler = function (data) {
 
     //Adds user to 'step down' vars
     //Used by enforceRoom()
-    if (usertostep == data.user[0].userid) {
-        //Reset stepdown vars
-        userstepped = true;
-        usertostep = null;
-        
-        if (config.enforcement.enforceroom && config.enforcement.stepuprules.waittostepup) {
-            addToPastDJList(data.user[0].userid);
-        }
-    }
+	//Reset stepdown vars
+	userstepped = true;
+	usertostep = null;
+	
+	if (config.enforcement.enforceroom && config.enforcement.stepuprules.waittostepup) {
+		addToPastDJList(data.user[0].userid);
+	}
     
     //Set time this event occurred for enforcing one and down room policy
     if (legalstepdown) {
@@ -424,6 +436,12 @@ exports.addDjEventHandler = function(data) {
     //See if this user is in the past djs list
     else if (config.enforcement.enforceroom && config.enforcement.stepuprules.waittostepup) {
         checkStepup(data.user[0].userid, data.user[0].name);
+    }
+
+    // Let the DJ know we're playing a game
+    result = getGame('');
+    if (result != "") {
+        bot.speak(result);
     }
 
     if (djs.length > 2 && botIsDJ) {

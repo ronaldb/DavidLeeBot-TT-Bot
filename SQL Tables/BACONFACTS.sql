@@ -26,7 +26,7 @@ CREATE TABLE `BACONFACTS` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `fact` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,7 +53,8 @@ INSERT INTO `BACONFACTS` VALUES
 (15,'As soon as I learned what the smell of bacon was, I learned how to make it.'),
 (16,'Veggie bacon?!? That sounds like a sign of the Apocalypse.'),
 (17,'The universal food of the people of Texas, both rich and poor, seems to be corn-dodger and fried bacon.'),
-(18,'Sir Francis? Is that you?');
+(18,'Sir Francis? Is that you?'),
+(19,'FACT: A study suggests that food like bacon affect the brain in a manner similar to cocaine and heroin, overloading pleasure centers and requiring increasing amounts.');
 /*!40000 ALTER TABLE `BACONFACTS` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
