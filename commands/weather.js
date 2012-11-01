@@ -1,6 +1,6 @@
 exports.name = '.weather';
 exports.hidden = false;
-exports.enabled = true;
+exports.enabled = false;
 exports.matchStart = true;
 exports.handler = function(data) {
     var userlocation = data.text.substring(9);
