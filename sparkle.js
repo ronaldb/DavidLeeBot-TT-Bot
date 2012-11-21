@@ -473,8 +473,12 @@ global.welcomeUser = function (name, id) {
     }
     else {
         bot.speak('Uh oh... a bot!!');
-		bot.boot(id, "We don't need any bots - We already got one!");
-		bot.speak("No more bot...");
+		setTimeout( function() {
+			bot.boot(id, "We don't need any bots - We already got one!");
+		}, 10000);
+		setTimeout( function() {
+			bot.speak("No more bot...");
+		}, 15000);
     }
 }
 
