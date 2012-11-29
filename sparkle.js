@@ -653,7 +653,7 @@ global.checkWaitlist = function (userid, name) {
 
 global.announceNextPersonOnWaitlist = function () {
     if (waitlist.length > 0 && djs.length < 5) {
-        bot.speak('The open spot is for @' + waitlist[0].name + '! You\'ve got 30 seconds to step up!');
+        bot.speak('The open spot is for @' + waitlist[0].name + '! You\'ve got ' + str(config.enforcement.stepuptime) + ' seconds to step up!');
         output({text: 'Hey! This spot is yours, so go ahead and step up!', destination: 'pm',
             userid: waitlist[0].id});
             
@@ -665,7 +665,7 @@ global.announceNextPersonOnWaitlist = function () {
                 waitlist.shift();
                 announceNextPersonOnWaitlist();
             }
-        }, 30000);
+        }, config.enforcement.stepuptime * 1000);
     }
 }
 

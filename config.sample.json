@@ -45,6 +45,7 @@
 	{"enforceroom":false,
     "waitlist":false,
 	"songstoplay":2,
+	"stepuptime":30,
 	"idling":
 		{"removeidle":true,
 		"idlewarn":10,
