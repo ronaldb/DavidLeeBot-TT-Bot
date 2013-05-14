@@ -80,7 +80,7 @@ exports.updateVoteEventHandler = function (data) {
         if (data.room.metadata.votelog[0][1] == 'up') {
             console.log('\u001b[32m[ Vote ] (+'
                 + data.room.metadata.upvotes + ' -' + data.room.metadata.downvotes
-                + ') ' + usersList[data.room.metadata.votelog[0][0]].name + '\u001b[0m');
+                + ') ' + (usersList[data.room.metadata.votelog[0][0]] == null ? 'Someone' : usersList[data.room.metadata.votelog[0][0]].name) + '\u001b[0m');
         } else {
             console.log('\u001b[31m[ Vote ] (+'
                 + data.room.metadata.upvotes + ' -' + data.room.metadata.downvotes
