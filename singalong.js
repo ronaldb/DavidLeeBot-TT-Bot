@@ -90,6 +90,25 @@ var thereflex = [
     ['Ta na na na', 265000]
 ]; 
 
+var numberone = [
+    ['Number 1', 78000],
+    ['Number 2', 85000],
+    ['Number 3', 94000],
+    ['Number 4', 102000],
+    ['I am', 133000],
+    ['in the making', 138000],
+    ['Number 5', 141000],
+    ['Number 6', 150000],
+    ['I\'ll do', 173000],
+    ['I\'ll stake', 190000],
+    ['my claim', 192000],
+    ['I\'ll make', 194000],
+    ['my name', 196000],
+    ['my love', 198000],
+    ['my game', 200000],
+    ['my vocation', 202000]
+];
+
 var sail = [
     ['SAIL', 34500]
 ];
@@ -99,7 +118,8 @@ var songlist = [
     ['Duran Duran', 'The Reflex', thereflex],
     ['AWOLNATION', 'Sail', sail],
     ['Reptar', 'Blastoff', blastoff],  
-    ['Reptar', 'Houseboat Babies', houseboatbabies]
+    ['Reptar', 'Houseboat Babies', houseboatbabies],
+    ['Chaz Jankel', 'Number One', numberone]
 ];
 
 exports.getLyrics = function (artist, song) {
