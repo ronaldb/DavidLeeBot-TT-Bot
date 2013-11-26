@@ -3,8 +3,8 @@ exports.hidden = true;
 exports.enabled = true;
 exports.matchStart = true;
 exports.handler = function(data) {
-    //my room is idiots
     if (config.database.usedb && admincheck(data.userid)) {
+    //If your room consists of idiots, uncomment this line and remove the one above
     //if (config.database.usedb && data.userid == config.admin) {
         //Get name and userid
         var givenname = data.text.substring(8);
